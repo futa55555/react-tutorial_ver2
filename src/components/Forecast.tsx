@@ -22,7 +22,7 @@ export default function Forecast({ isLoading, forecastData, onClick }: Props) {
       <div className="forecast__view">
         {isLoading
           ? `読み込み中`
-          : `${forecastData.dateLabel}の天気: ${forecastData?.temperature.min} ~ ${forecastData?.temperature.max}`}
+          : `${forecastData?.dateLabel}の天気: ${forecastData?.temperature.min} ~ ${forecastData?.temperature.max}`}
       </div>
       <button className="forecast__toggle" onClick={onClick}>
         Reload
