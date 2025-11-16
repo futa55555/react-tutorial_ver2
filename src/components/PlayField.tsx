@@ -9,7 +9,7 @@ import Square from "@/components/Square";
 
 type Props = {
   currentGame: Game;
-  latestHistory: History;
+  currentHistory: History;
   nextPlayer: string;
   onClickSquare: (i: number) => void;
   restoreMove: (i: number) => void;
@@ -17,7 +17,7 @@ type Props = {
 
 export default function PlayField({
   currentGame,
-  latestHistory,
+  currentHistory,
   nextPlayer,
   onClickSquare,
   restoreMove,
@@ -26,12 +26,12 @@ export default function PlayField({
     <div className="play-field">
       <div className="play-field__board">
         <h3 className="play-field__header">
-          {latestHistory.winner
-            ? `Winner: ${latestHistory.winner}`
+          {currentHistory.winner
+            ? `Winner: ${currentHistory.winner}`
             : `Next player: ${nextPlayer}`}
         </h3>
         <div className="play-field__grid">
-          {latestHistory.squares.map((square, index) => {
+          {currentHistory.squares.map((square, index) => {
             return (
               <Square
                 key={index}

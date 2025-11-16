@@ -30,17 +30,17 @@ export default function useGame() {
   }, []);
 
   const currentGame: Game = gameList[currentGameId];
-  const latestHistory: History = currentGame.histories[currentRound - 1];
+  const currentHistory: History = currentGame.histories[currentRound - 1];
   const nextPlayer: string = currentRound % 2 === 0 ? "O" : "X";
 
   function onClickSquare(i: number): void {
-    const winner = latestHistory.winner;
-    const squares = latestHistory.squares;
+    const latestHistory: History =
+      currentGame.histories[currentGame.histories.length - 1];
 
-    if (winner || squares[i]) return;
+    if (latestHistory.winner || latestHistory.squares[i]) return;
 
     // 盤面更新
-    const newSquares = squares.slice();
+    const newSquares = currentHistory.squares.slice();
     newSquares[i] = nextPlayer;
 
     // 勝者更新
@@ -104,7 +104,7 @@ export default function useGame() {
   return {
     gameList,
     currentGame,
-    latestHistory,
+    currentHistory,
     nextPlayer,
     onClickSquare,
     createNewGame,

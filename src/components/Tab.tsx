@@ -11,7 +11,7 @@ import PlayField from "@/components/PlayField";
 type Props = {
   gameList: Game[];
   currentGame: Game;
-  latestHistory: History;
+  currentHistory: History;
   nextPlayer: string;
   onClickSquare: (i: number) => void;
   restoreMove: (i: number) => void;
@@ -23,7 +23,7 @@ type Props = {
 export default function Tab({
   gameList,
   currentGame,
-  latestHistory,
+  currentHistory,
   nextPlayer,
   onClickSquare,
   restoreMove,
@@ -68,7 +68,7 @@ export default function Tab({
               return (
                 <PlayField
                   currentGame={currentGame}
-                  latestHistory={latestHistory}
+                  currentHistory={currentHistory}
                   nextPlayer={nextPlayer}
                   onClickSquare={onClickSquare}
                   restoreMove={restoreMove}

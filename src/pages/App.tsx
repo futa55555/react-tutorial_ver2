@@ -8,7 +8,8 @@ import { useState } from "react";
 
 import ReactLogo from "@/assets/react.svg";
 
-import useGame from "@/hooks/useGame";
+import { useGameStore } from "@/stores/gameStore";
+
 import useForecast from "@/hooks/useForecast";
 
 import Header from "@/components/Header";
@@ -20,14 +21,17 @@ import Tab from "@/components/Tab";
 export default function App() {
   const {
     gameList,
-    currentGame,
-    latestHistory,
-    nextPlayer,
+    getCurrentGame,
+    getCurrentHistory,
+    getNextPlayer,
     onClickSquare,
     createNewGame,
     restoreMove,
     restoreGame,
-  } = useGame();
+  } = useGameStore();
+  const currentGame = getCurrentGame();
+  const currentHistory = getCurrentHistory();
+  const nextPlayer = getNextPlayer();
 
   const { isLoading, data: forecastData, mutate } = useForecast();
 
@@ -52,7 +56,7 @@ export default function App() {
         <Tab
           gameList={gameList}
           currentGame={currentGame}
-          latestHistory={latestHistory}
+          currentHistory={currentHistory}
           nextPlayer={nextPlayer}
           onClickSquare={onClickSquare}
           restoreMove={restoreMove}
