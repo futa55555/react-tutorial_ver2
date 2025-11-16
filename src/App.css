@@ -60,7 +60,7 @@ body {
   width: 100%;
 }
 .tab__item {
-  width: 50%;
+  width: 33.3%;
   height: 40px;
   border: 1px solid #181818;
   border-radius: 0;
@@ -160,4 +160,21 @@ body {
   flex-direction: column;
   gap: 20px;
   align-items: center;
+}
+
+/* FormField */
+.form-field__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-top: 20px;
+}
+.form-field__input {
+  display: flex;
+  width: 50%;
+}
+.form-field__message {
+  display: flex;
+  margin: 0;
 }

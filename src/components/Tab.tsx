@@ -4,6 +4,7 @@
 
 import type { History, Game } from "@/types/game";
 
+import FormField from "@/components/FormField";
 import HistoryField from "@/components/HistoryField";
 import PlayField from "@/components/PlayField";
 
@@ -15,8 +16,8 @@ type Props = {
   onClickSquare: (i: number) => void;
   restoreMove: (i: number) => void;
   restoreGame: (i: number) => void;
-  tabStatus: "play" | "history";
-  setTabStatus: (value: "play" | "history") => void;
+  tabStatus: "form" | "play" | "history";
+  setTabStatus: (value: "form" | "play" | "history") => void;
 };
 
 export default function Tab({
@@ -35,6 +36,14 @@ export default function Tab({
       <div className="tab__switcher">
         <button
           className={`tab__item ${
+            tabStatus === "form" ? "tab__item--active" : ""
+          }`}
+          onClick={() => setTabStatus("form")}
+        >
+          Form
+        </button>
+        <button
+          className={`tab__item ${
             tabStatus === "play" ? "tab__item--active" : ""
           }`}
           onClick={() => setTabStatus("play")}
@@ -51,21 +60,30 @@ export default function Tab({
         </button>
       </div>
       <div className="tab__field">
-        {tabStatus === "play" ? (
-          <PlayField
-            history={history}
-            game={game}
-            nextPlayer={nextPlayer}
-            onClickSquare={onClickSquare}
-            restoreMove={restoreMove}
-          />
-        ) : (
-          <HistoryField
-            gameList={gameList}
-            restoreGame={restoreGame}
-            setTabStatus={setTabStatus}
-          />
-        )}
+        {(() => {
+          switch (tabStatus) {
+            case "form":
+              return <FormField />;
+            case "play":
+              return (
+                <PlayField
+                  history={history}
+                  game={game}
+                  nextPlayer={nextPlayer}
+                  onClickSquare={onClickSquare}
+                  restoreMove={restoreMove}
+                />
+              );
+            case "history":
+              return (
+                <HistoryField
+                  gameList={gameList}
+                  restoreGame={restoreGame}
+                  setTabStatus={setTabStatus}
+                />
+              );
+          }
+        })()}
       </div>
     </div>
   );

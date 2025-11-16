@@ -29,9 +29,11 @@ export default function App() {
     restoreGame,
   } = useGame();
 
-  const { isLoading, forecastData, setForecastToggle } = useForecast();
+  const { isLoading, data: forecastData, mutate } = useForecast();
 
-  const [tabStatus, setTabStatus] = useState<"play" | "history">("play");
+  const [tabStatus, setTabStatus] = useState<"form" | "play" | "history">(
+    "play"
+  );
   const [isModalView, setIsModalView] = useState<boolean>(false);
 
   return (
@@ -42,7 +44,7 @@ export default function App() {
           onClick={() => {
             createNewGame();
             setTabStatus("play");
-            setForecastToggle((prev) => !prev);
+            mutate();
           }}
         >
           New Game
@@ -65,7 +67,7 @@ export default function App() {
       <Forecast
         isLoading={isLoading}
         forecastData={forecastData}
-        onClick={() => setForecastToggle((prev) => !prev)}
+        onClick={mutate}
       />
     </>
   );

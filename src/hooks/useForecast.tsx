@@ -7,9 +7,13 @@ import { useState, useEffect } from "react";
 import type { ForecastData } from "@/types/forecast";
 
 export default function useForecast() {
-  const [forecastToggle, setForecastToggle] = useState<boolean>(false);
+  const [version, setVersion] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [forecastData, setForecastData] = useState<ForecastData | null>(null);
+  const [data, setData] = useState<ForecastData | null>(null);
+
+  function mutate() {
+    setVersion((v) => v + 1);
+  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -18,7 +22,7 @@ export default function useForecast() {
       .then((res) => res.json())
       .then((json) => {
         const today = json?.forecasts[0];
-        setForecastData({
+        setData({
           dateLabel: today.dateLabel,
           temperature: {
             min: today.temperature.min.celsius,
@@ -27,11 +31,11 @@ export default function useForecast() {
         });
       })
       .finally(() => setIsLoading(false));
-  }, [forecastToggle]);
+  }, [version]);
 
   return {
     isLoading,
-    forecastData,
-    setForecastToggle,
+    data,
+    mutate,
   };
 }
