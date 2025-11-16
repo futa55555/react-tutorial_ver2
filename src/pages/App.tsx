@@ -19,9 +19,9 @@ import Tab from "@/components/Tab";
 
 export default function App() {
   const {
-    history,
-    game,
     gameList,
+    currentGame,
+    latestHistory,
     nextPlayer,
     onClickSquare,
     createNewGame,
@@ -50,9 +50,9 @@ export default function App() {
           New Game
         </BasicButton>
         <Tab
-          history={history}
-          game={game}
           gameList={gameList}
+          currentGame={currentGame}
+          latestHistory={latestHistory}
           nextPlayer={nextPlayer}
           onClickSquare={onClickSquare}
           restoreMove={restoreMove}

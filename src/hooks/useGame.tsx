@@ -9,83 +9,80 @@ import { useState, useEffect } from "react";
 import checkWinner from "@/utils/checkWinner";
 
 export default function useGame() {
-  const [gameId, setGameId] = useState<number>(1);
-  const [round, setRound] = useState<number>(1);
-  const [squares, setSquares] = useState<string[]>(Array(9).fill(""));
-  const [winner, setWinner] = useState<string>("");
-  const [histories, setHistories] = useState<History[]>([
+  const [gameList, setGameList] = useState<Game[]>([
     {
-      squares: Array(9).fill(""),
-      winner: "",
+      id: 0,
+      histories: [
+        {
+          winner: "",
+          squares: Array(9).fill(""),
+        },
+      ],
     },
   ]);
-  const [gameList, setGameList] = useState<Game[]>([]);
-
-  const nextPlayer: string = round % 2 === 0 ? "O" : "X";
-  const history: History = {
-    squares: squares,
-    winner: winner,
-  };
-  const game: Game = {
-    id: gameId,
-    histories: histories,
-  };
+  const [currentRound, setCurrentRound] = useState<number>(1);
+  const [currentGameId, setCurrentGameId] = useState<number>(0);
 
   // onMountedでcreateNewGame
   useEffect(() => {
     createNewGame();
+    setCurrentGameId(1);
   }, []);
 
+  const currentGame: Game = gameList[currentGameId];
+  const latestHistory: History = currentGame.histories[currentRound - 1];
+  const nextPlayer: string = currentRound % 2 === 0 ? "O" : "X";
+
   function onClickSquare(i: number): void {
+    const winner = latestHistory.winner;
+    const squares = latestHistory.squares;
+
     if (winner || squares[i]) return;
 
     // 盤面更新
     const newSquares = squares.slice();
     newSquares[i] = nextPlayer;
-    setSquares(newSquares);
 
     // 勝者更新
     const newWinner = checkWinner(newSquares);
-    setWinner(newWinner);
 
     // move-history更新
     const newHistory: History = {
-      squares: newSquares,
       winner: newWinner,
+      squares: newSquares,
     };
-    const newHistories = [...histories.slice(0, round), newHistory];
-    setHistories(newHistories);
+    const newHistories = [
+      ...currentGame.histories.slice(0, currentRound),
+      newHistory,
+    ];
 
-    // round更新
-    setRound((round) => round + 1);
-
-    // game-history更新
-    const newGame = {
-      id: gameId,
+    // game-list更新
+    const newGame: Game = {
+      id: currentGameId,
       histories: newHistories,
     };
     const newGameList = gameList.slice();
-    newGameList[gameId - 1] = newGame;
+    newGameList[currentGameId] = newGame;
     setGameList(newGameList);
+
+    // round更新
+    setCurrentRound((currentRound) => currentRound + 1);
   }
 
   function createNewGame() {
     // gameId更新
-    const newGameId = gameList.length + 1;
-    setGameId(newGameId);
+    const newGameId = gameList.length;
+    setCurrentGameId(newGameId);
 
-    // round, squares, winner, histories初期化
-    const initSquares = Array(9).fill("");
-    const initHistory = {
-      squares: initSquares,
-      winner: "",
-    };
-    setRound(1);
-    setSquares(initSquares);
-    setWinner("");
-    setHistories([initHistory]);
+    // round更新
+    setCurrentRound(1);
 
     // game-history更新
+    const initSquares = Array(9).fill("");
+    const initHistory = {
+      winner: "",
+      squares: initSquares,
+    };
     const newGame = {
       id: newGameId,
       histories: [initHistory],
@@ -93,28 +90,21 @@ export default function useGame() {
     setGameList([...gameList, newGame]);
   }
 
-  function restoreMove(i: number): void {
-    const history = histories[i];
-
-    setRound(i + 1);
-    setSquares(history.squares);
-    setWinner(history.winner);
+  function restoreMove(round: number): void {
+    setCurrentRound(round);
   }
 
-  function restoreGame(i: number): void {
-    const game = gameList[i - 1];
+  function restoreGame(gameId: number): void {
+    setCurrentGameId(gameId);
 
-    setGameId(game.id);
-    setRound(game.histories.length);
-    setSquares(game.histories.at(-1)?.squares || Array(9).fill(""));
-    setWinner(game.histories.at(-1)?.winner || "");
-    setHistories(game.histories);
+    const game = gameList[gameId];
+    setCurrentRound(game.histories.length);
   }
 
   return {
-    history,
-    game,
     gameList,
+    currentGame,
+    latestHistory,
     nextPlayer,
     onClickSquare,
     createNewGame,
