@@ -1,0 +1,163 @@
+body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+#root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  text-align: center;
+  gap: 10px;
+}
+.right-root {
+  display: flex;
+  flex-direction: column;
+}
+#portal-root {
+  position: relative;
+  display: flex;
+  height: 200px;
+  width: 200px;
+}
+#forecast-root {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.header__title {
+  margin: 0;
+}
+.header__description {
+  margin: 0;
+}
+
+/* Tab */
+.tab {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+.tab__switcher {
+  width: 100%;
+}
+.tab__item {
+  width: 50%;
+  height: 40px;
+  border: 1px solid #181818;
+  border-radius: 0;
+  background-color: #b9b9b9;
+}
+.tab__item--active {
+  background-color: #ffffff;
+}
+.tab__field {
+  border: 1px solid #181818;
+}
+
+/* PlayField */
+.play-field {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.play-field__board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 240px;
+  height: 360px;
+}
+.play-field__header {
+  margin: 0;
+}
+.play-field__grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 70px);
+  justify-content: center;
+}
+
+/* Square */
+.square {
+  position: relative;
+  display: flex;
+  width: 70px;
+  height: 70px;
+}
+.square__background {
+  position: absolute;
+  z-index: 0;
+  display: flex;
+  width: 90%;
+  height: 90%;
+  background-color: rgb(208, 210, 210);
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+.square__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+}
+
+/* MoveHistory */
+.move-history {
+  width: 240px;
+}
+.move-history__header {
+  margin: 0;
+  padding-top: 20px;
+}
+.move-history__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* HistoryField */
+.history-field {
+  padding-top: 20px;
+}
+.history-field__header {
+  margin: 0;
+}
+
+/* Portal */
+.portal-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Forecast */
+.forecast {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
